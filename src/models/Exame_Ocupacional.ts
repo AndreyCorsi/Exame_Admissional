@@ -4,6 +4,7 @@ export interface Exame_Ocupacional {
     tipo: TipoExame;
     periodicidadeMeses: number;
     id_risco: number;
+    dataemissao: Date;
     }
 
 export enum TipoExame {

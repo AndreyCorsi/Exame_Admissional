@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS exame_ocupacional (
     tipo VARCHAR(20) NOT NULL,
     periodicidadeMeses INT NOT NULL,
     id_risco INT,
+    validade date NOT NULL,
     FOREIGN KEY (id_risco) REFERENCES risco(id)
 );
 
