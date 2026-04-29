@@ -4,10 +4,10 @@ import db from '../database/database';
 export class ExameOcupacionalRepository {
     salvar(exame: Exame_Ocupacional): Exame_Ocupacional {
         const resultado = db
-        .prepare("INSERT INTO exame_ocupacional (nome, tipo, periodicidadeMeses, id_risco) VALUES (?, ?, ?, ?)")
-        .run(exame.nome, exame.tipo, exame.periodicidadeMeses, exame.id_risco);
+        .prepare("INSERT INTO exame_ocupacional (nome, tipo, periodicidadeMeses, id_risco, dataemissao) VALUES (?, ?, ?, ?, ?)")
+        .run(exame.nome, exame.tipo, exame.periodicidadeMeses, exame.id_risco, exame.dataemissao);
     
-        return { id: Number(resultado.lastInsertRowid), nome: exame.nome, tipo: exame.tipo, periodicidadeMeses: exame.periodicidadeMeses, id_risco: exame.id_risco };
+        return { id: Number(resultado.lastInsertRowid), nome: exame.nome, tipo: exame.tipo, periodicidadeMeses: exame.periodicidadeMeses, id_risco: exame.id_risco, dataemissao: exame.dataemissao };
     }
     listar(): Exame_Ocupacional[] {
         return db
