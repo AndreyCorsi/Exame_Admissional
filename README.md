@@ -1,4 +1,4 @@
-# 🏥 MediCheck — Sistema de Gestão de Saúde Ocupacional
+# 🏥 Exame Admissional — Sistema de Gestão de Saúde Ocupacional
 
 <div align="center">
 
@@ -15,7 +15,7 @@
 
 ## 🎯 Sobre o Projeto
 
-O **MediCheck** é uma API REST desenvolvida para digitalizar e automatizar o fluxo do **Exame Admissional e Periódico** dentro de empresas, integrando o controle de funcionários, cargos, setores, riscos ocupacionais, exames e emissão de ASO (Atestado de Saúde Ocupacional).
+O **Exame Admissional** é uma API REST desenvolvida para digitalizar e automatizar o fluxo do **Exame Admissional e Periódico** dentro de empresas, integrando o controle de funcionários, cargos, setores, riscos ocupacionais, exames e emissão de ASO (Atestado de Saúde Ocupacional).
 
 O sistema elimina processos manuais, garante rastreabilidade completa via auditoria e emite **alertas automáticos** para exames próximos ao vencimento — protegendo a empresa de passivos trabalhistas.
 
