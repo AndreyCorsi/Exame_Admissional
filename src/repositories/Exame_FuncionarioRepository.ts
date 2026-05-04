@@ -36,6 +36,44 @@ export class ExameFuncionarioRepository {
 
         return resultado.changes > 0;
     }  
+    calcularDataVencimento(dataRealizacao: Date, periodicidadeMeses: number): Date {
+           
+        const vencimento = new Date(dataRealizacao);
+        vencimento.setMonth(vencimento.getMonth() + periodicidadeMeses);
+        return vencimento;
+    }
+
+    listarVencidos(): Exame_Funcionario[] {
+
+        return db
+            .prepare("SELECT * FROM exame_funcionario WHERE date(dataVencimento) < date('now')")
+            .all() as Exame_Funcionario[];
+    }
+
+    listarProximosAoVencimento(dias: number = 30): Exame_Funcionario[] {
+
+        return db
+            .prepare(`
+                SELECT *
+                FROM exame_funcionario
+                WHERE date(dataVencimento) BETWEEN date('now') AND date('now', ?)
+            `)
+            .all(`+${dias} days`) as Exame_Funcionario[];
+    }
+
+    salvarComPeriodicidade(
+        exameFuncionario: Exame_Funcionario,
+        periodicidadeMeses: number
+    ): Exame_Funcionario {
+
+    exameFuncionario.dataVencimento = this.calcularDataVencimento(
+        exameFuncionario.dataRealizacao,
+        periodicidadeMeses
+    );
+
+        return this.salvar(exameFuncionario);
+    }
 }
+
 
 

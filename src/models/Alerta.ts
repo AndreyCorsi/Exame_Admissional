@@ -5,6 +5,7 @@ export interface Alerta {
     nivel: NivelAlerta;
     id_funcionario: number;
     id_exame_ocupacional: number;
+    resolvido: boolean;
     }
 
 export enum NivelAlerta {

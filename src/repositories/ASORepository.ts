@@ -32,4 +32,9 @@ export class ASORepository {
 
         return resultado.changes > 0;
     }
+    buscarUltimoPorFuncionario(id_funcionario: number): ASO | null {
+
+    return (db.prepare(` SELECT * FROM aso WHERE id_funcionario = ? ORDER BY date(dataEmissao) DESC, id DESC LIMIT 1`)
+        .get(id_funcionario) as ASO) ?? null;
+    }
 }

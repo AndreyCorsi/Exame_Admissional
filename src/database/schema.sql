@@ -96,4 +96,11 @@ CREATE TABLE IF NOT EXISTS Alerta (
     id_exame_ocupacional INT,
     FOREIGN KEY (id_funcionario) REFERENCES funcionario(id),
     FOREIGN KEY (id_exame_ocupacional) REFERENCES exame_ocupacional(id)
+
+CREATE TABLE IF NOT EXISTS auditoria (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tabela VARCHAR(100) NOT NULL,
+    acao VARCHAR(50) NOT NULL,
+    data_criacao DATETIME NOT NULL
+);
 );

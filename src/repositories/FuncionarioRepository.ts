@@ -53,4 +53,5 @@ export class FuncionarioRepository {
         
         return resultado.changes > 0;
     }
+    
 }
