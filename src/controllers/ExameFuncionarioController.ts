@@ -4,7 +4,7 @@ import { ExameFuncionarioRepository } from "../repositories/Exame_FuncionarioRep
 export function ExameFuncionarioController() {
   const repository = new ExameFuncionarioRepository();
 
-  app.get("/exames-funcionarios", (req, res) => {
+  app.get("/examesFuncionarios", (req, res) => {
     const { funcionarioId, situacao } = req.query;
 
     if (funcionarioId) return res.json(repository.buscarPorFuncionario(parseInt(funcionarioId as string)));
@@ -13,23 +13,23 @@ export function ExameFuncionarioController() {
     res.json(repository.listar());
   });
 
-  app.get("/exames-funcionarios/vencidos", (_req, res) => {
+  app.get("/examesFuncionarios/vencidos", (_req, res) => {
     res.json(repository.listarVencidos());
   });
 
-  app.get("/exames-funcionarios/proximos-vencimento", (req, res) => {
+  app.get("/examesFuncionarios/proximosvencimento", (req, res) => {
     const dias = req.query.dias ? parseInt(req.query.dias as string) : 30;
     res.json(repository.listarProximosAoVencimento(dias));
   });
 
-  app.get("/exames-funcionarios/:id", (req, res) => {
+  app.get("/examesFuncionarios/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const exame = repository.buscarPorId(id);
     if (!exame) return res.status(404).json({ erro: "Exame do funcionario nao encontrado" });
     res.json(exame);
   });
 
-  app.post("/exames-funcionarios", (req, res) => {
+  app.post("/examesFuncionarios", (req, res) => {
     try {
       const {
         dataRealizacao,
@@ -71,7 +71,7 @@ export function ExameFuncionarioController() {
     }
   });
 
-  app.post("/exames-funcionarios/com-periodicidade", (req, res) => {
+  app.post("/examesFuncionarios/periodicidade", (req, res) => {
     try {
       const { periodicidadeMeses } = req.body;
       if (periodicidadeMeses <= 0) throw new Error("Periodicidade deve ser maior que zero");
@@ -84,7 +84,7 @@ export function ExameFuncionarioController() {
     }
   });
 
-  app.put("/exames-funcionarios/:id", (req, res) => {
+  app.put("/examesFuncionarios/:id", (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const atualizado = repository.atualizar(id, req.body);
@@ -96,7 +96,7 @@ export function ExameFuncionarioController() {
     }
   });
 
-  app.delete("/exames-funcionarios/:id", (req, res) => {
+  app.delete("/examesFuncionarios/:id", (req, res) => {
     const id = parseInt(req.params.id);
     const removido = repository.remover(id);
     if (!removido) return res.status(404).json({ erro: "Exame do funcionario nao encontrado" });

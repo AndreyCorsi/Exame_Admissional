@@ -13,3 +13,9 @@ export enum NivelAlerta {
     AMARELO,
     VERMELHO
 }
+
+export enum  resolvido {
+    Resolvido,
+    NaoResolvido,
+    Pendencia 
+}

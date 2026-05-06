@@ -23,7 +23,7 @@ export class AlertaRepository {
     atualizar(id: number, a:Alerta): boolean {
         const resultado = db
         .prepare("UPDATE alerta SET dataVencimento = ?, diasParaVencer = ?, nivel = ?, resolvido = ?, id_funcionario = ?, id_exame_ocupacional = ? WHERE id = ?")
-        .run(a.dataVencimento, a.diasParaVencer, a.nivel, a.resolvido, a.id_funcionario, a.id_exame_ocupacional, id);
+        .run(a.dataVencimento, a.diasParaVencer, a.nivel, a.resolvido ? 1 : 0, a.id_funcionario, a.id_exame_ocupacional, id);
 
         return resultado.changes > 0;
     }

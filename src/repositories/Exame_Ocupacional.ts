@@ -4,7 +4,7 @@ import db from '../database/database';
 export class ExameOcupacionalRepository {
     salvar(exame: Exame_Ocupacional): Exame_Ocupacional {
         const resultado = db
-        .prepare("INSERT INTO exame_ocupacional (nome, tipo, periodicidadeMeses, id_risco, dataemissao) VALUES (?, ?, ?, ?, ?)")
+        .prepare("INSERT INTO exame_ocupacional (nome, tipo, periodicidadeMeses, id_risco_ocupacional, dataemissao) VALUES (?, ?, ?, ?, ?)")
         .run(exame.nome, exame.tipo, exame.periodicidadeMeses, exame.id_risco_ocupacional, exame.dataemissao);
     
         return { id: Number(resultado.lastInsertRowid), nome: exame.nome, tipo: exame.tipo, periodicidadeMeses: exame.periodicidadeMeses, id_risco_ocupacional: exame.id_risco_ocupacional, dataemissao: exame.dataemissao };

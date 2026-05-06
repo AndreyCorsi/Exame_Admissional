@@ -16,7 +16,7 @@ Content-Type: application/json
     "nome": "João Silva",
     "dataAdmissao": "2024-01-15",
     "status": "ativo",
-    "id_cargo": 2,
+    "id_cargo": 1,
     "id_setor": 2
 }
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 
 {
     "razaoSocial": "Empresa XYZ Ltda",
-    "cnpj": "12.345.678/0001-90",
+    "cnpj": "12.345.678/0001-99",
     "cnae": "6201-5/01",
     "totalFuncionarios": 100,
     "data_criacao": "2020-01-01",
@@ -248,5 +248,132 @@ Content-Type: application/json
     "id_risco_ocupacional": 1,
     "dataemissao": "2024-01-15"
 }
+
+### Listar Exames Ocupacionais
+GET http://localhost:3000/examesOcupacionais
+
+### Atualizar Exame Ocupacional
+PUT http://localhost:3000/examesOcupacionais/1
+Content-Type: application/json
+
+{
+    "nome": "Exame de fonoaudiologia",
+    "tipo": "periódico",
+    "periodicidadeMeses": 12,
+    "id_risco_ocupacional": 1,
+    "dataemissao": "2024-01-15"
+}
+
+### Excluir Exame Ocupacional
+DELETE http://localhost:3000/examesOcupacionais/1
+
+### -- Exame Funcionario ---
+    # dataRealizacao: Date;
+    # dataVencimento: Date;
+    # resultado: string;
+    # situacao: SituacaoExame;
+    # medicoResponsavel: string;
+    # crmMedico: string;
+    # observacoes?: string;
+    # id_funcionario: number;
+    # id_exame_ocupacional: number;
+
+### Criar Exame Funcionario
+POST http://localhost:3000/examesFuncionarios
+Content-Type: application/json
+
+{
+    "dataRealizacao": "2024-01-15",
+    "dataVencimento": "2025-01-15",
+    "resultado": "Apto",
+    "situacao": "vencido",
+    "medicoResponsavel": "Dr. Carlos Silva",
+    "crmMedico": "12345-SP",
+    "observacoes": "Nenhuma",
+    "id_funcionario": 1,
+    "id_exame_ocupacional": 2
+}
+
+### Listar Exames Funcionario
+GET http://localhost:3000/examesFuncionarios
+
+### Atualizar Exame Funcionario
+PUT http://localhost:3000/examesFuncionarios/1
+Content-Type: application/json
+
+{
+    "dataRealizacao": "2024-01-15",
+    "dataVencimento": "2025-01-15",
+    "resultado": "Apto",
+    "situacao": "vencido",
+    "medicoResponsavel": "Dr. Andre Silva",
+    "crmMedico": "12345-SP",
+    "observacoes": "Nenhuma",
+    "id_funcionario": 1,
+    "id_exame_ocupacional": 2
+}
+
+### Excluir Exame Funcionario
+DELETE http://localhost:3000/examesFuncionarios/1
+
+### Filtrar Exames Vencidos
+GET http://localhost:3000/examesFuncionarios/vencidos
+
+### Gerar Exames por Periodicidade
+POST http://localhost:3000/examesFuncionarios/periodicidade
+Content-Type: application/json
+
+{
+    "periodicidadeMeses": 12
+}
+
+### Listar Exames Próximos ao Vencimento
+GET http://localhost:3000/examesFuncionarios/proximos-vencimento?dias=30
+
+# --- Alerta ---
+    # id?: number;
+    # dataVencimento: Date;
+    # diasParaVencer: number;
+    # nivel: NivelAlerta;
+    # id_funcionario: number;
+    # id_exame_ocupacional: number;
+    # resolvido: boolean;
+
+### Criar Alerta
+POST http://localhost:3000/alertas
+Content-Type: application/json
+
+{
+    "dataVencimento": "2025-01-15",
+    "diasParaVencer": 30,
+    "nivel": "médio",
+    "id_funcionario": 1,
+    "id_exame_ocupacional": 2,
+    "resolvido": "Resolvido"
+}
+
+### Listar Alertas
+GET http://localhost:3000/alertas
+
+### Atualizar Alerta
+PUT http://localhost:3000/alertas/1
+Content-Type: application/json
+
+{
+    "dataVencimento": "2025-01-15",
+    "diasParaVencer": 30,
+    "nivel": "alto",
+    "id_funcionario": 1,
+    "id_exame_ocupacional": 2,
+    "resolvido": "NaoResolvido"
+}
+
+### Excluir Alerta
+DELETE http://localhost:3000/alertas/1
+
+
+
+
+
 
 
