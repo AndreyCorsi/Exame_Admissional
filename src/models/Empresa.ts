@@ -5,5 +5,5 @@ export interface Empresa {
     cnae: string;
     totalFuncionarios: number;
     data_criacao: Date;
-    data_atualizacao: Date;
+    data_atualizacao?: Date;
 }

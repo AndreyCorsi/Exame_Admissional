@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS empresa (
     razaoSocial VARCHAR(255) NOT NULL,
     cnpj VARCHAR(20) NOT NULL UNIQUE,
     cnae VARCHAR(20) NOT NULL,
-    total_funcionarios INT NOT NULL,
+    totalFuncionarios INT NOT NULL,
     data_criacao DATETIME,
     data_atualizacao DATETIME
 );
@@ -20,7 +20,10 @@ CREATE TABLE IF NOT EXISTS cargo (
 CREATE TABLE IF NOT EXISTS setor (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(255) NOT NULL,
-    id_empresa INT,
+    descricao VARCHAR(255) NOT NULL,
+    data_criacao DATETIME NOT NULL,
+    data_atualizacao DATETIME,
+    id_empresa INT NOT NULL,
     FOREIGN KEY (id_empresa) REFERENCES empresa(id)
 );
 
@@ -58,9 +61,9 @@ CREATE TABLE IF NOT EXISTS exame_ocupacional (
     nome VARCHAR(255) NOT NULL,
     tipo VARCHAR(20) NOT NULL,
     periodicidadeMeses INT NOT NULL,
-    id_risco INT,
-    validade date NOT NULL,
-    FOREIGN KEY (id_risco) REFERENCES risco(id)
+    id_risco_ocupacional INT,
+    dataemissao date NOT NULL,
+    FOREIGN KEY (id_risco_ocupacional) REFERENCES risco_ocupacional(id)
 );
 
 CREATE TABLE IF NOT EXISTS risco_ocupacional (
@@ -96,4 +99,11 @@ CREATE TABLE IF NOT EXISTS Alerta (
     id_exame_ocupacional INT,
     FOREIGN KEY (id_funcionario) REFERENCES funcionario(id),
     FOREIGN KEY (id_exame_ocupacional) REFERENCES exame_ocupacional(id)
+);
+
+CREATE TABLE IF NOT EXISTS auditoria (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tabela VARCHAR(100) NOT NULL,
+    acao VARCHAR(50) NOT NULL,
+    data_criacao DATETIME NOT NULL
 );

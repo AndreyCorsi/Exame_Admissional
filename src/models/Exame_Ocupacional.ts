@@ -3,7 +3,7 @@ export interface Exame_Ocupacional {
     nome: string;
     tipo: TipoExame;
     periodicidadeMeses: number;
-    id_risco: number;
+    id_risco_ocupacional: number;
     dataemissao: Date;
     }
 

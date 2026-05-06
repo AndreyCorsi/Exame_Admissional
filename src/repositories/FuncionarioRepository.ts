@@ -23,14 +23,6 @@ export class FuncionarioRepository {
         return (db.prepare("SELECT * FROM funcionario WHERE matricula = ?").get(matricula) as Funcionario) ?? null;
     }
 
-    buscarPorEmpresa(id_empresa: number): Funcionario | null {
-        return (db.prepare("SELECT * FROM funcionario WHERE id_empresa = ?").get(id_empresa) as Funcionario) ?? null;
-    }
-
-    buscarPorCargo(id_cargo: number): Funcionario | null {
-        return (db.prepare("SELECT * FROM funcionario WHERE id_cargo = ?").get(id_cargo) as Funcionario) ?? null;
-    }
-
     buscarPorSetor(id_setor: number): Funcionario | null {
         return (db.prepare("SELECT * FROM funcionario WHERE id_setor = ?").get(id_setor) as Funcionario) ?? null;
     }
@@ -53,4 +45,5 @@ export class FuncionarioRepository {
         
         return resultado.changes > 0;
     }
+    
 }

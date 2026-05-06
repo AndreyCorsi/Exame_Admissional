@@ -5,9 +5,9 @@ export class ExameOcupacionalRepository {
     salvar(exame: Exame_Ocupacional): Exame_Ocupacional {
         const resultado = db
         .prepare("INSERT INTO exame_ocupacional (nome, tipo, periodicidadeMeses, id_risco, dataemissao) VALUES (?, ?, ?, ?, ?)")
-        .run(exame.nome, exame.tipo, exame.periodicidadeMeses, exame.id_risco, exame.dataemissao);
+        .run(exame.nome, exame.tipo, exame.periodicidadeMeses, exame.id_risco_ocupacional, exame.dataemissao);
     
-        return { id: Number(resultado.lastInsertRowid), nome: exame.nome, tipo: exame.tipo, periodicidadeMeses: exame.periodicidadeMeses, id_risco: exame.id_risco, dataemissao: exame.dataemissao };
+        return { id: Number(resultado.lastInsertRowid), nome: exame.nome, tipo: exame.tipo, periodicidadeMeses: exame.periodicidadeMeses, id_risco_ocupacional: exame.id_risco_ocupacional, dataemissao: exame.dataemissao };
     }
     listar(): Exame_Ocupacional[] {
         return db
@@ -24,8 +24,8 @@ export class ExameOcupacionalRepository {
     }
     atualizar(id: number, e:Exame_Ocupacional): boolean {
         const resultado = db 
-        .prepare("UPDATE exame_ocupacional SET nome = ?, tipo = ?, periodicidadeMeses = ?, id_risco = ? WHERE id = ?")
-        .run(e.nome, e.tipo, e.periodicidadeMeses, e.id_risco, id);
+        .prepare("UPDATE exame_ocupacional SET nome = ?, tipo = ?, periodicidadeMeses = ?, id_risco_ocupacional = ?, dataemissao = ? WHERE id = ?")
+        .run(e.nome, e.tipo, e.periodicidadeMeses, e.id_risco_ocupacional, e.dataemissao, id);
 
         return resultado.changes > 0;
     }

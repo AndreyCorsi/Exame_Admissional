@@ -1,0 +1,252 @@
+# --- Funcionarios --- 
+  #  razaoSocial: string;
+  #  cnpj: string;
+  #  cnae: string;
+  #  totalFuncionarios: number;
+  #  data_criacao: Date;
+  #  data_atualizacao: Date;
+
+### Criar Funcionario
+
+POST http://localhost:3000/funcionarios
+Content-Type: application/json
+
+{
+    "matricula": "12345",
+    "nome": "João Silva",
+    "dataAdmissao": "2024-01-15",
+    "status": "ativo",
+    "id_cargo": 2,
+    "id_setor": 2
+}
+
+### Listar Funcionarios
+GET http://localhost:3000/funcionarios
+
+### Atualizar Funcionario
+PUT http://localhost:3000/funcionarios/1
+Content-Type: application/json
+
+{
+    "matricula": "12345",
+    "nome": "João Silva",
+    "dataAdmissao": "2024-02-15",
+    "status": "ativo",
+    "id_cargo": 2,
+    "id_setor": 2
+}
+
+### Excluir Funcionario
+DELETE http://localhost:3000/funcionarios/1
+
+### Criar Empresa
+POST http://localhost:3000/empresas
+Content-Type: application/json
+
+{
+    "razaoSocial": "Empresa XYZ Ltda",
+    "cnpj": "12.345.678/0001-90",
+    "cnae": "6201-5/01",
+    "totalFuncionarios": 100,
+    "data_criacao": "2020-01-01",
+    "data_atualizacao": "2024-01-01"
+}
+
+### Listar Empresas
+GET  http://localhost:3000/empresas
+
+### Atualizar Empresa
+PUT http://localhost:3000/empresas/1
+Content-Type: application/json
+
+{
+    "razaoSocial": "Empresa XYZ Ltda",
+    "cnpj": "12.345.678/0001-90",
+    "cnae": "6201-5/01",
+    "totalFuncionarios": 150,
+    "data_criacao": "2020-01-01",
+    "data_atualizacao": "2024-01-01"
+}
+
+### Excluir Empresa
+DELETE http://localhost:3000/empresas/1
+
+
+
+# --- Setor --- 
+  #  nome: string;
+  #  descricao: string;
+  #  data_criacao: Date;
+  #  data_atualizacao: Date;
+
+### Criar Setor
+POST http://localhost:3000/setores
+Content-Type: application/json
+
+{
+    "nome": "Recursos Humanos",
+    "descricao": "Setor responsável pela gestão de pessoas",
+    "data_criacao": "2020-01-01",
+    "data_atualizacao": "2024-01-01",
+    "id_empresa": 2
+}
+
+### Listar Setores
+GET http://localhost:3000/setores
+
+### Atualizar Setor
+PUT http://localhost:3000/setores/1
+Content-Type: application/json
+
+{
+    "nome": "Recursos Humanos",
+    "descricao": "Setor responsável pela gestão de pessoas",
+    "data_criacao": "2020-01-01",
+    "data_atualizacao": "2024-01-01",
+    "id_empresa": 2
+}
+
+### Excluir Setor
+DELETE http://localhost:3000/setores/1
+
+
+
+# --- Cargo --- 
+  #  nome: string;
+  #  codigoCBO: string;
+  #  descricaoAtividades: string;
+  #  id_setor: number;
+
+### Criar Cargo
+POST http://localhost:3000/cargos
+Content-Type: application/json
+
+{
+    "nome": "Analista de Recursos Humanos",
+    "codigoCBO": "1234-56",
+    "descricaoAtividades": "Responsável por atividades de recrutamento e seleção",
+    "id_setor": 2
+}
+
+### Listar Cargos
+GET http://localhost:3000/cargos
+
+### Atualizar Cargo
+
+PUT http://localhost:3000/cargos/1
+Content-Type: application/json
+
+{
+    "nome": "AAAAAA",
+    "codigoCBO": "1234-56",
+    "descricaoAtividades": "Responsável por atividades de recrutamento e seleção",
+    "id_setor": 2
+}
+
+### Excluir Cargo
+DELETE http://localhost:3000/cargos/1
+
+
+
+### --- ASO ---
+    # dataEmissao: Date;
+    # tipoExame: TipoExame;
+    # aptidao: ASOStatus;
+    # restricao: string;
+    # proximoASO: Date;
+    # medicoResponsavel: string;
+    # crmMedico: string;
+    # data_criacao: Date;
+    # id_funcionario: number;
+
+### Criar ASO
+POST http://localhost:3000/asos
+Content-Type: application/json
+
+{
+    "dataEmissao": "2024-01-15",
+    "tipoExame": "admissional",
+    "aptidao": "apto",
+    "restricao": "Nenhuma",
+    "proximoASO": "2025-01-15",
+    "medicoResponsavel": "Dr. Carlos Silva",
+    "crmMedico": "12345-SP",
+    "data_criacao": "2024-01-15",
+    "id_funcionario": 1
+}
+
+### Listar ASOs
+GET http://localhost:3000/asos
+
+### Atualizar ASO
+PUT http://localhost:3000/asos/1
+Content-Type: application/json
+
+{
+    "dataEmissao": "2024-01-15",
+    "tipoExame": "admissional",
+    "aptidao": "apto",
+    "restricao": "Nenhuma",
+    "proximoASO": "2025-01-15",
+    "medicoResponsavel": "Dr. Andre Silva",
+    "crmMedico": "12345-SP",
+    "data_criacao": "2024-01-15",
+    "id_funcionario": 1
+}
+
+# --- Risco ---
+    # descricao: string;
+    # tipo: string;
+    # nivel: NivelRisco;
+    # id_cargo: number;
+
+### Criar Risco
+POST http://localhost:3000/riscosOcupacionais
+Content-Type: application/json
+
+{
+    "descricao": "Exposição a ruído",
+    "tipo": "físico",
+    "nivel": "médio",
+    "id_cargo": 2
+}
+
+### Listar Riscos
+GET http://localhost:3000/riscosOcupacionais
+
+### Atualizar Risco
+PUT http://localhost:3000/riscosOcupacionais/1
+Content-Type: application/json
+
+{
+    "descricao": "Exposição a ruído",
+    "tipo": "físico",
+    "nivel": "alto",
+    "id_cargo": 2
+}
+
+### Excluir Risco
+DELETE http://localhost:3000/riscosOcupacionais/1
+
+
+
+# --- Exame Ocupacional ---
+    # nome: string;
+    # tipo: TipoExame;
+    # periodicidadeMeses: number;
+    # id_risco_ocupacional: number;
+    # dataemissao: Date;
+
+### Criar Exame Ocupacional
+POST http://localhost:3000/examesOcupacionais
+Content-Type: application/json
+
+{
+    "nome": "Exame de Audiometria",
+    "tipo": "periódico",
+    "periodicidadeMeses": 12,
+    "id_risco_ocupacional": 1,
+    "dataemissao": "2024-01-15"
+}
+
+
