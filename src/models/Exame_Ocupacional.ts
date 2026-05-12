@@ -1,16 +1,8 @@
 export interface Exame_Ocupacional {
     id?: number;
     nome: string;
-    tipo: TipoExame;
+    tipo: string;
     periodicidadeMeses: number;
-    id_risco_ocupacional: number;
-    dataemissao: Date;
-    }
-
-export enum TipoExame {
-    ADMISSIONAL,
-    PERIODICO,
-    RETORNO,
-    DEMISSIONAL,
-    MUDANCA_FUNCAO
-    }
+    id_risco_ocupacional: number | null;
+    dataemissao: string;
+}

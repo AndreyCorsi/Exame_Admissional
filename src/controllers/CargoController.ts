@@ -6,15 +6,12 @@ export function CargoController() {
 
   app.get("/cargos", (req, res) => {
     const { setorId, codigoCBO } = req.query;
-
     if (setorId) return res.json(repository.buscarPorSetor(parseInt(setorId as string)));
-
     if (codigoCBO) {
       const cargo = repository.buscarPorCodigoCBO(codigoCBO as string);
       if (!cargo) return res.status(404).json({ erro: "Cargo nao encontrado" });
       return res.json(cargo);
     }
-
     res.json(repository.listar());
   });
 
@@ -27,14 +24,15 @@ export function CargoController() {
 
   app.post("/cargos", (req, res) => {
     try {
-      const { nome, codigoCBO, descricaoAtividades, id_setor } = req.body;
-
+      const { nome, codigoCBO, descricaoAtividades, descricao, id_setor } = req.body;
       if (!nome || nome.trim().length === 0) throw new Error("Nome e obrigatorio");
-      if (!codigoCBO || codigoCBO.trim().length === 0) throw new Error("Codigo CBO e obrigatorio");
-      if (!descricaoAtividades || descricaoAtividades.trim().length === 0) throw new Error("Descricao das atividades e obrigatoria");
-      if (!id_setor) throw new Error("Setor e obrigatorio");
 
-      const cargo = repository.salvar({ nome, codigoCBO, descricaoAtividades, id_setor });
+      const cargo = repository.salvar({
+        nome,
+        codigoCBO: codigoCBO || `CBO-${Date.now()}`,
+        descricaoAtividades: descricaoAtividades || descricao || "",
+        id_setor: id_setor || null,
+      });
       res.status(201).json(cargo);
     } catch (err) {
       const mensagem = err instanceof Error ? err.message : "Erro interno";

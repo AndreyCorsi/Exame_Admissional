@@ -1,21 +1,10 @@
 export interface Alerta {
     id?: number;
-    dataVencimento: Date;
+    dataVencimento: string;
     diasParaVencer: number;
-    nivel: NivelAlerta;
+    nivel: string;
     id_funcionario: number;
     id_exame_ocupacional: number;
     resolvido: boolean;
-    }
-
-export enum NivelAlerta {
-    VERDE,
-    AMARELO,
-    VERMELHO
-}
-
-export enum  resolvido {
-    Resolvido,
-    NaoResolvido,
-    Pendencia 
+    mensagem?: string | null;
 }

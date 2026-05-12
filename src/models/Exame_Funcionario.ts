@@ -1,18 +1,13 @@
 export interface Exame_Funcionario {
     id?: number;
-    dataRealizacao: Date;
-    dataVencimento: Date;
+    dataRealizacao: string;
+    dataVencimento: string;
     resultado: string;
-    situacao: SituacaoExame;
+    situacao: string;
     medicoResponsavel: string;
     crmMedico: string;
-    observacoes?: string;
+    observacoes: string;
     id_funcionario: number;
     id_exame_ocupacional: number;
-    }
-
-export enum SituacaoExame {
-    NORMAL,
-    ALTERADO,
-    PENDENTE
+    tipo_exame?: string;
 }

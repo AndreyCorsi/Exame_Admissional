@@ -6,11 +6,9 @@ export function AlertaController() {
 
   app.get("/alertas", (req, res) => {
     const { funcionarioId, nivel, pendentes } = req.query;
-
     if (pendentes === "true") return res.json(repository.listarPendentes());
     if (funcionarioId) return res.json(repository.buscarPorFuncionario(parseInt(funcionarioId as string)));
     if (nivel) return res.json(repository.buscarPorNivel(nivel as string));
-
     res.json(repository.listar());
   });
 
@@ -23,21 +21,21 @@ export function AlertaController() {
 
   app.post("/alertas", (req, res) => {
     try {
-      const { dataVencimento, diasParaVencer, nivel, resolvido, id_funcionario, id_exame_ocupacional } = req.body;
+      const { dataVencimento, diasParaVencer, nivel, resolvido, id_funcionario, id_exame_ocupacional, mensagem } = req.body;
 
       if (!dataVencimento) throw new Error("Data de vencimento e obrigatoria");
-      if (diasParaVencer < 0) throw new Error("Dias para vencer nao pode ser negativo");
       if (!nivel) throw new Error("Nivel e obrigatorio");
       if (!id_funcionario) throw new Error("Funcionario e obrigatorio");
       if (!id_exame_ocupacional) throw new Error("Exame ocupacional e obrigatorio");
 
       const alerta = repository.salvar({
-        dataVencimento: dataVencimento as unknown as Date,
-        diasParaVencer,
+        dataVencimento,
+        diasParaVencer: diasParaVencer ?? 0,
         nivel,
         resolvido: resolvido ?? false,
         id_funcionario,
         id_exame_ocupacional,
+        mensagem: mensagem ?? null,
       });
 
       res.status(201).json(alerta);
@@ -50,7 +48,17 @@ export function AlertaController() {
   app.put("/alertas/:id", (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const atualizado = repository.atualizar(id, req.body);
+      const atual = repository.buscarPorId(id);
+      if (!atual) return res.status(404).json({ erro: "Alerta nao encontrado" });
+      const atualizado = repository.atualizar(id, {
+        dataVencimento: req.body.dataVencimento ?? atual.dataVencimento,
+        diasParaVencer: req.body.diasParaVencer ?? atual.diasParaVencer,
+        nivel: req.body.nivel ?? atual.nivel,
+        resolvido: req.body.resolvido ?? atual.resolvido,
+        id_funcionario: req.body.id_funcionario ?? atual.id_funcionario,
+        id_exame_ocupacional: req.body.id_exame_ocupacional ?? atual.id_exame_ocupacional,
+        mensagem: req.body.mensagem ?? atual.mensagem,
+      });
       if (!atualizado) return res.status(404).json({ erro: "Alerta nao encontrado" });
       res.json({ mensagem: "Alerta atualizado com sucesso" });
     } catch (err) {

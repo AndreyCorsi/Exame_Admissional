@@ -6,10 +6,8 @@ export function ExameFuncionarioController() {
 
   app.get("/examesFuncionarios", (req, res) => {
     const { funcionarioId, situacao } = req.query;
-
     if (funcionarioId) return res.json(repository.buscarPorFuncionario(parseInt(funcionarioId as string)));
     if (situacao) return res.json(repository.buscarPorSituacao(situacao as string));
-
     res.json(repository.listar());
   });
 
@@ -32,36 +30,25 @@ export function ExameFuncionarioController() {
   app.post("/examesFuncionarios", (req, res) => {
     try {
       const {
-        dataRealizacao,
-        dataVencimento,
-        resultado,
-        situacao,
-        medicoResponsavel,
-        crmMedico,
-        observacoes,
-        id_funcionario,
-        id_exame_ocupacional,
+        dataRealizacao, dataVencimento, resultado, situacao,
+        medicoResponsavel, crmMedico, observacoes,
+        id_funcionario, id_exame_ocupacional, tipo_exame,
       } = req.body;
 
-      if (!dataRealizacao) throw new Error("Data de realizacao e obrigatoria");
-      if (!dataVencimento) throw new Error("Data de vencimento e obrigatoria");
-      if (!resultado || resultado.trim().length === 0) throw new Error("Resultado e obrigatorio");
-      if (!situacao) throw new Error("Situacao e obrigatoria");
-      if (!medicoResponsavel || medicoResponsavel.trim().length === 0) throw new Error("Medico responsavel e obrigatorio");
-      if (!crmMedico || crmMedico.trim().length === 0) throw new Error("CRM do medico e obrigatorio");
       if (!id_funcionario) throw new Error("Funcionario e obrigatorio");
       if (!id_exame_ocupacional) throw new Error("Exame ocupacional e obrigatorio");
 
       const exame = repository.salvar({
-        dataRealizacao: dataRealizacao as unknown as Date,
-        dataVencimento: dataVencimento as unknown as Date,
-        resultado,
-        situacao,
-        medicoResponsavel,
-        crmMedico,
-        observacoes,
+        dataRealizacao: dataRealizacao || "",
+        dataVencimento: dataVencimento || "",
+        resultado: resultado || "",
+        situacao: situacao || "PENDENTE",
+        medicoResponsavel: medicoResponsavel || "",
+        crmMedico: crmMedico || "",
+        observacoes: observacoes || "",
         id_funcionario,
         id_exame_ocupacional,
+        tipo_exame: tipo_exame || "Admissional",
       });
 
       res.status(201).json(exame);
@@ -74,8 +61,7 @@ export function ExameFuncionarioController() {
   app.post("/examesFuncionarios/periodicidade", (req, res) => {
     try {
       const { periodicidadeMeses } = req.body;
-      if (periodicidadeMeses <= 0) throw new Error("Periodicidade deve ser maior que zero");
-
+      if (!periodicidadeMeses || periodicidadeMeses <= 0) throw new Error("Periodicidade deve ser maior que zero");
       const exame = repository.salvarComPeriodicidade(req.body, periodicidadeMeses);
       res.status(201).json(exame);
     } catch (err) {
@@ -87,7 +73,21 @@ export function ExameFuncionarioController() {
   app.put("/examesFuncionarios/:id", (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const atualizado = repository.atualizar(id, req.body);
+      const atual = repository.buscarPorId(id);
+      if (!atual) return res.status(404).json({ erro: "Exame do funcionario nao encontrado" });
+
+      const atualizado = repository.atualizar(id, {
+        dataRealizacao: req.body.dataRealizacao ?? atual.dataRealizacao,
+        dataVencimento: req.body.dataVencimento ?? atual.dataVencimento,
+        resultado: req.body.resultado ?? atual.resultado,
+        situacao: req.body.situacao ?? atual.situacao,
+        medicoResponsavel: req.body.medicoResponsavel ?? atual.medicoResponsavel,
+        crmMedico: req.body.crmMedico ?? atual.crmMedico,
+        observacoes: req.body.observacoes ?? atual.observacoes,
+        id_funcionario: req.body.id_funcionario ?? atual.id_funcionario,
+        id_exame_ocupacional: req.body.id_exame_ocupacional ?? atual.id_exame_ocupacional,
+        tipo_exame: req.body.tipo_exame ?? atual.tipo_exame,
+      });
       if (!atualizado) return res.status(404).json({ erro: "Exame do funcionario nao encontrado" });
       res.json({ mensagem: "Exame do funcionario atualizado com sucesso" });
     } catch (err) {

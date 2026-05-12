@@ -3,5 +3,5 @@ export interface Cargo {
     nome: string;
     codigoCBO: string;
     descricaoAtividades: string;
-    id_setor: number;
+    id_setor: number | null;
 }

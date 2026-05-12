@@ -6,11 +6,9 @@ export function RiscoOcupacionalController() {
 
   app.get("/riscosOcupacionais", (req, res) => {
     const { cargoId, tipo, nivel } = req.query;
-
     if (cargoId) return res.json(repository.buscarPorCargo(parseInt(cargoId as string)));
     if (tipo) return res.json(repository.buscarPorTipo(tipo as string));
     if (nivel) return res.json(repository.buscarPorNivel(nivel as string));
-
     res.json(repository.listar());
   });
 
@@ -24,13 +22,15 @@ export function RiscoOcupacionalController() {
   app.post("/riscosOcupacionais", (req, res) => {
     try {
       const { descricao, tipo, nivel, id_cargo } = req.body;
-
       if (!descricao || descricao.trim().length === 0) throw new Error("Descricao e obrigatoria");
-      if (!tipo || tipo.trim().length === 0) throw new Error("Tipo e obrigatorio");
       if (!nivel) throw new Error("Nivel e obrigatorio");
-      if (!id_cargo) throw new Error("Cargo e obrigatorio");
 
-      const risco = repository.salvar({ descricao, tipo, nivel, id_cargo });
+      const risco = repository.salvar({
+        descricao,
+        tipo: tipo || "Geral",
+        nivel: nivel.toString().toUpperCase(),
+        id_cargo: id_cargo || null,
+      });
       res.status(201).json(risco);
     } catch (err) {
       const mensagem = err instanceof Error ? err.message : "Erro interno";
@@ -41,7 +41,14 @@ export function RiscoOcupacionalController() {
   app.put("/riscosOcupacionais/:id", (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const atualizado = repository.atualizar(id, req.body);
+      const atual = repository.buscarPorId(id);
+      if (!atual) return res.status(404).json({ erro: "Risco ocupacional nao encontrado" });
+      const atualizado = repository.atualizar(id, {
+        descricao: req.body.descricao ?? atual.descricao,
+        tipo: req.body.tipo ?? atual.tipo,
+        nivel: req.body.nivel ?? atual.nivel,
+        id_cargo: req.body.id_cargo !== undefined ? req.body.id_cargo : atual.id_cargo,
+      });
       if (!atualizado) return res.status(404).json({ erro: "Risco ocupacional nao encontrado" });
       res.json({ mensagem: "Risco ocupacional atualizado com sucesso" });
     } catch (err) {
